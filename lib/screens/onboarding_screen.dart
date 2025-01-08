@@ -1,5 +1,5 @@
 import 'package:expenz_app/data/onbording_data.dart';
-import 'package:expenz_app/screens/home_screen.dart';
+import 'package:expenz_app/screens/user_data_screen.dart';
 import 'package:expenz_app/screens/onbording/front_page.dart';
 import 'package:expenz_app/screens/onbording/shared_screen.dart';
 import 'package:expenz_app/utils/colors.dart';
@@ -67,15 +67,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  
                   if (showHomePage) {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => HomeScreen(),
+                      builder: (context) => UserDataScreen(),
                     ));
-                  }else{
-_controller.animateToPage(_controller.page!.toInt() + 1,
-                      duration: Duration(milliseconds: 400),
-                      curve: Curves.easeInOut);
+                  } else {
+                    _controller.animateToPage(_controller.page!.toInt() + 1,
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.easeInOut);
                   }
                 },
                 child: CoustomButton(
