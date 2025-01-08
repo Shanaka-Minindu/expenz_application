@@ -1,3 +1,5 @@
+import 'package:expenz_app/screens/onboarding_screen.dart';
+import 'package:expenz_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,14 +16,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: "Inter"),
       home: Scaffold(
-        body: Center(
-          child: Text(
-            "Hello Shanaka",
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+        body: Padding(
+          padding: const EdgeInsets.all(kDefalutPadding),
+          child: OnboardingScreen(),
         ),
       ),
     );
