@@ -1,5 +1,7 @@
 import 'package:expenz_app/screens/onboarding_screen.dart';
+import 'package:expenz_app/services/user_service.dart';
 import 'package:expenz_app/utils/constants.dart';
+import 'package:expenz_app/widgets/warpper.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,16 +16,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Expenz",
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: "Inter"),
-      home: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(kDefalutPadding),
-          child: OnboardingScreen(),
-        ),
-      ),
+    return FutureBuilder(
+      future: UserServices.checkUsername(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else {
+          bool username = snapshot.data ?? false;
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(fontFamily: "Inter"),
+            home: Warpper(showMainScreen: username),
+          );
+        }
+      },
     );
   }
 }

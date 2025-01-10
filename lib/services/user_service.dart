@@ -43,4 +43,11 @@ class UserServices {
       err.toString();
     }
   }
+
+  static Future<bool> checkUsername() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    String? userName = await pref.getString("userName");
+    return userName != null;
+  }
 }
