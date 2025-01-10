@@ -1,6 +1,4 @@
-import 'package:expenz_app/screens/onboarding_screen.dart';
 import 'package:expenz_app/services/user_service.dart';
-import 'package:expenz_app/utils/constants.dart';
 import 'package:expenz_app/widgets/warpper.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
