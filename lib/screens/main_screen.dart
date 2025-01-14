@@ -14,7 +14,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentPageIndex = 0;
+  int _currentPageIndex = 2;
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
