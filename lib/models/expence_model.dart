@@ -64,4 +64,8 @@ class ExpenceModel {
         time: DateTime.parse(objName['time']),
         expence: Expence.values[objName['expence']]);
   }
+
+
+
+  
 }

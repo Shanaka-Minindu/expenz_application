@@ -38,7 +38,8 @@ class IncomeModel {
       required this.time,
       required this.catogory});
 
-  Map<String, dynamic> toJSON() {
+// Convert income object to json
+  Map<String, dynamic> toJson() {
     return {
       "id": id,
       "title": title,
@@ -46,11 +47,13 @@ class IncomeModel {
       "amount": amount,
       "date": date.toIso8601String(),
       "time": time.toIso8601String(),
-      "catogory": catogory.index
+      "catogory": catogory.index,
     };
   }
 
-  factory IncomeModel.fromJSOM(Map<String, dynamic> objName) {
+//convert Json to Income object
+
+  factory IncomeModel.fromJson(Map<String, dynamic> objName) {
     return IncomeModel(
         id: objName['id'],
         title: objName['title'],

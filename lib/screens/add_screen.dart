@@ -1,16 +1,23 @@
+import 'dart:ffi';
+
 import 'package:expenz_app/models/expence_model.dart';
 import 'package:expenz_app/models/income_model.dart';
+import 'package:expenz_app/services/expence_service.dart';
+import 'package:expenz_app/services/income_service.dart';
 import 'package:expenz_app/utils/colors.dart';
 import 'package:expenz_app/widgets/coustom_button.dart';
 import 'package:expenz_app/widgets/date_button.dart';
 import 'package:expenz_app/widgets/time_button.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class AddScreen extends StatefulWidget {
-  const AddScreen({super.key});
+  final Function(ExpenceModel) addExpense;
+  final Function(IncomeModel) addIncome;
+
+  const AddScreen(
+      {super.key, required this.addExpense, required this.addIncome});
 
   @override
   State<AddScreen> createState() => _AddScreenState();
@@ -22,9 +29,9 @@ class _AddScreenState extends State<AddScreen> {
   Income _income = Income.salary;
 
   //Text Editing Controller
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _discriptionController = TextEditingController();
-  TextEditingController _amountController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _discriptionController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
 
   // date time
   DateTime _date = DateTime.now();
@@ -306,10 +313,47 @@ class _AddScreenState extends State<AddScreen> {
                       SizedBox(
                         height: 10,
                       ),
-                      CoustomButton(
-                          butText: "Add",
-                          color: _expensePage ? kRed : kGreen,
-                          textColor: kWhite)
+                      GestureDetector(
+                        onTap: () async {
+                          if (_expensePage) {
+                            List<ExpenceModel> loadedExpences =
+                                await ExpenceService().loadExpenses();
+                            print(loadedExpences.length);
+
+                            ExpenceModel expense = ExpenceModel(
+                                id: loadedExpences.length + 1,
+                                title: _titleController.text,
+                                discription: _discriptionController.text,
+                                amount: _amountController.text == Null
+                                    ? 0
+                                    : double.parse(_amountController.text),
+                                date: _date,
+                                time: _time,
+                                expence: _expence);
+
+                            widget.addExpense(expense);
+                          } else {
+                            List<IncomeModel> loadedIncome =
+                                await IncomeService().loadIncome();
+                            IncomeModel income = IncomeModel(
+                                id: loadedIncome.length + 1,
+                                title: _titleController.text,
+                                discription: _discriptionController.text,
+                                amount: _amountController == null
+                                    ? 0
+                                    : double.parse(_amountController.text),
+                                date: _date,
+                                time: _time,
+                                catogory: _income);
+
+                            widget.addIncome(income);
+                          }
+                        },
+                        child: CoustomButton(
+                            butText: "Add",
+                            color: _expensePage ? kRed : kGreen,
+                            textColor: kWhite),
+                      )
                     ],
                   ),
                 )),

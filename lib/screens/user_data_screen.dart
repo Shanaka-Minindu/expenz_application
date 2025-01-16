@@ -39,151 +39,151 @@ class _UserDataScreenState extends State<UserDataScreen> {
     return Scaffold(
       body: Scaffold(
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(kDefalutPadding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Enter your \nPersonal Details",
-                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Enter username before submit the form";
-                            }
-                          },
-                          controller: _usernameController,
-                          decoration: InputDecoration(
-                              hintText: "Name",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 20)),
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        TextFormField(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Enter the email";
-                            }
-                          },
-                          controller: _emailController,
-                          decoration: InputDecoration(
-                              hintText: "Email",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 20)),
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        TextFormField(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Password is required";
-                            }
-                          },
-                          controller: _passwordController,
-                          obscureText: _passfirmEye,
-                          decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _passfirmEye = !_passfirmEye;
-                                    });
-                                  },
-                                  icon: Icon(Icons.remove_red_eye)),
-                              hintText: "Password",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 20)),
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        TextFormField(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Confirm password is required";
-                            }
-                          },
-                          controller: _confirmPasswordController,
-                          obscureText: _confirmEye,
-                          decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _confirmEye = !_confirmEye;
-                                    });
-                                  },
-                                  icon: Icon(Icons.remove_red_eye)),
-                              hintText: "Confirm Password",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 20)),
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        Row(
-                          children: [
-                            Text("Remember Me for the next time"),
-                            Expanded(
-                                child: Checkbox(
-                              value: _isChecked,
-                              onChanged: (value) {
-                                setState(() {
-                                  _isChecked = value!;
-                                });
-                              },
-                            ))
-                          ],
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            if (_formKey.currentState!.validate()) {
-                              String userName = _usernameController.text;
-                              String email = _emailController.text;
-                              String password = _passwordController.text;
-                              String confirmPassword =
-                                  _confirmPasswordController.text;
-
-                              await UserServices.storeUserDetails(userName,
-                                  email, password, confirmPassword, context);
-
-                              
-                            }
-                          },
-                          child: CoustomButton(
-                            butText: "Next",
-                            color: kMainColor,
-                            textColor: kWhite,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(kDefalutPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Enter your \nPersonal Details",
+                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Enter username before submit the form";
+                              }
+                            },
+                            controller: _usernameController,
+                            decoration: InputDecoration(
+                                hintText: "Name",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 20)),
                           ),
-                        ),
-                      ],
-                    ))
-              ],
+                          SizedBox(
+                            height: 25,
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Enter the email";
+                              }
+                            },
+                            controller: _emailController,
+                            decoration: InputDecoration(
+                                hintText: "Email",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 20)),
+                          ),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Password is required";
+                              }
+                            },
+                            controller: _passwordController,
+                            obscureText: _passfirmEye,
+                            decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _passfirmEye = !_passfirmEye;
+                                      });
+                                    },
+                                    icon: Icon(Icons.remove_red_eye)),
+                                hintText: "Password",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 20)),
+                          ),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Confirm password is required";
+                              }
+                            },
+                            controller: _confirmPasswordController,
+                            obscureText: _confirmEye,
+                            decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _confirmEye = !_confirmEye;
+                                      });
+                                    },
+                                    icon: Icon(Icons.remove_red_eye)),
+                                hintText: "Confirm Password",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 20)),
+                          ),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          Row(
+                            children: [
+                              Text("Remember Me for the next time"),
+                              Expanded(
+                                  child: Checkbox(
+                                value: _isChecked,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _isChecked = value!;
+                                  });
+                                },
+                              ))
+                            ],
+                          ),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              if (_formKey.currentState!.validate()) {
+                                String userName = _usernameController.text;
+                                String email = _emailController.text;
+                                String password = _passwordController.text;
+                                String confirmPassword =
+                                    _confirmPasswordController.text;
+
+                                await UserServices.storeUserDetails(userName,
+                                    email, password, confirmPassword, context);
+                              }
+                            },
+                            child: CoustomButton(
+                              butText: "Next",
+                              color: kMainColor,
+                              textColor: kWhite,
+                            ),
+                          ),
+                        ],
+                      ))
+                ],
+              ),
             ),
           ),
         ),
