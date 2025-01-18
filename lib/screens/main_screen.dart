@@ -64,6 +64,13 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void deleteIncome(IncomeModel income) {
+    IncomeService().deleteIncome(income.id, context);
+    setState(() {
+      incomeList.remove(income);
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -80,6 +87,7 @@ class _MainScreenState extends State<MainScreen> {
         expensesList: expensesList,
         incomeList: incomeList,
         onDismissedExpence: removeExpence,
+        onDismissedIncome: deleteIncome,
       ),
       AddScreen(
         addExpense: addExpeces,

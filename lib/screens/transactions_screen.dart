@@ -1,6 +1,6 @@
 import 'package:expenz_app/models/expence_model.dart';
 import 'package:expenz_app/models/income_model.dart';
-import 'package:expenz_app/services/expence_service.dart';
+
 import 'package:expenz_app/utils/colors.dart';
 import 'package:expenz_app/widgets/expence_card.dart';
 import 'package:expenz_app/widgets/income_card.dart';
@@ -11,20 +11,20 @@ class TransactionsScreen extends StatefulWidget {
   final List<IncomeModel> incomeList;
 
   final void Function(ExpenceModel) onDismissedExpence;
+  final void Function(IncomeModel) onDismissedIncome;
 
   const TransactionsScreen(
       {super.key,
       required this.expensesList,
       required this.incomeList,
-      required this.onDismissedExpence});
+      required this.onDismissedExpence,
+      required this.onDismissedIncome});
 
   @override
   State<TransactionsScreen> createState() => _TransactionsScreenState();
 }
 
 class _TransactionsScreenState extends State<TransactionsScreen> {
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,12 +118,22 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                   itemCount: widget.incomeList.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    return IncomeCard(
-                        title: widget.incomeList[index].title,
-                        discription: widget.incomeList[index].discription,
-                        category: widget.incomeList[index].catogory,
-                        time: widget.incomeList[index].time,
-                        amount: widget.incomeList[index].amount);
+                    final item = widget.incomeList[index];
+                    return Dismissible(
+                      key: ValueKey(item),
+                      direction: DismissDirection.endToStart,
+                      onDismissed: (direction) {
+                        setState(() {
+                          widget.onDismissedIncome(item);
+                        });
+                      },
+                      child: IncomeCard(
+                          title: item.title,
+                          discription: item.discription,
+                          category: item.catogory,
+                          time: item.time,
+                          amount: item.amount),
+                    );
                   },
                 ),
               ),
