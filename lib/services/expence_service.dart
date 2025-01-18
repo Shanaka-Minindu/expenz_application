@@ -34,11 +34,12 @@ class ExpenceService {
       await prefs.setStringList(_expenceKey, updatedExpenses);
 
 //show snackbar
-
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Expenses added successfully"),
-        duration: Duration(seconds: 2),
-      ));
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Expenses added successfully"),
+          duration: Duration(seconds: 2),
+        ));
+      }
     } catch (e) {
       print(e.toString());
     }
@@ -59,5 +60,38 @@ class ExpenceService {
       print(e.toString());
     }
     return exsistingExpensessObjects;
+  }
+
+  Future<void> daleteExpences(int id, BuildContext context) async {
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      List<String>? exsistingExpenses = pref.getStringList(_expenceKey);
+
+      if (exsistingExpenses != null) {
+        List<ExpenceModel> exepenseObj = exsistingExpenses
+            .map(
+              (e) => ExpenceModel.fromJSON(json.decode(e)),
+            )
+            .toList();
+
+        exepenseObj.removeWhere((item) => item.id == id);
+
+        List<String> deletedList = exepenseObj
+            .map(
+              (e) => json.encode(e.toJSON()),
+            )
+            .toList();
+        await pref.setStringList(_expenceKey, deletedList);
+
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Expense deleated sucsessfully"),
+            duration: Duration(seconds: 2),
+          ));
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

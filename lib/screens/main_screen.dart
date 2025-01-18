@@ -18,7 +18,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentPageIndex = 2;
+  int _currentPageIndex = 1;
 
   List<ExpenceModel> expensesList = [];
   List<IncomeModel> incomeList = [];
@@ -37,6 +37,14 @@ class _MainScreenState extends State<MainScreen> {
     ExpenceService().saveExpence(newExpence, context);
     setState(() {
       expensesList.add(newExpence);
+    });
+  }
+
+  void removeExpence(ExpenceModel expence) {
+    ExpenceService().daleteExpences(expence.id, context);
+
+    setState(() {
+      expensesList.remove(expence);
     });
   }
 
@@ -68,7 +76,11 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       HomeScreen(),
-      TransactionsScreen(),
+      TransactionsScreen(
+        expensesList: expensesList,
+        incomeList: incomeList,
+        onDismissedExpence: removeExpence,
+      ),
       AddScreen(
         addExpense: addExpeces,
         addIncome: addIncome,

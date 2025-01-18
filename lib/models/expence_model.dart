@@ -39,7 +39,6 @@ class ExpenceModel {
       required this.expence});
 
 // convert the Expnce object to a json object
-
   Map<String, dynamic> toJSON() {
     return {
       'id': id,
@@ -51,9 +50,7 @@ class ExpenceModel {
       'expence': expence.index,
     };
   }
-
 // convert the Json to the Expence object
-
   factory ExpenceModel.fromJSON(Map<String, dynamic> objName) {
     return ExpenceModel(
         id: objName["id"],

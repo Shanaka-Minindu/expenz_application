@@ -332,6 +332,10 @@ class _AddScreenState extends State<AddScreen> {
                                 expence: _expence);
 
                             widget.addExpense(expense);
+
+                            _titleController.clear();
+                            _amountController.clear();
+                            _discriptionController.clear();
                           } else {
                             List<IncomeModel> loadedIncome =
                                 await IncomeService().loadIncome();
@@ -347,6 +351,10 @@ class _AddScreenState extends State<AddScreen> {
                                 catogory: _income);
 
                             widget.addIncome(income);
+
+                            _titleController.clear();
+                            _amountController.clear();
+                            _discriptionController.clear();
                           }
                         },
                         child: CoustomButton(
