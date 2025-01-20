@@ -18,7 +18,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentPageIndex = 1;
+  int _currentPageIndex = 0;
 
   List<ExpenceModel> expensesList = [];
   List<IncomeModel> incomeList = [];
@@ -82,7 +82,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      HomeScreen(),
+      HomeScreen(expenseList: expensesList,incomeList: incomeList,),
       TransactionsScreen(
         expensesList: expensesList,
         incomeList: incomeList,
