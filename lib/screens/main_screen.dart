@@ -18,8 +18,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentPageIndex = 0;
-
+  int _currentPageIndex = 3;
+  double totIncome = 0;
+  double totExpense = 0;
   List<ExpenceModel> expensesList = [];
   List<IncomeModel> incomeList = [];
 
@@ -79,10 +80,49 @@ class _MainScreenState extends State<MainScreen> {
     fetchAllIncome();
   }
 
+  Map<Expence, double> calculateExpenseCatogory() {
+    Map<Expence, double> catogoryTotals = {
+      Expence.food: 0,
+      Expence.health: 0,
+      Expence.shopping: 0,
+      Expence.subscription: 0,
+      Expence.transport: 0
+    };
+    totExpense = 0;
+    for (ExpenceModel expence in expensesList) {
+      catogoryTotals[expence.expence] =
+          catogoryTotals[expence.expence]! + expence.amount;
+
+      totExpense = totExpense + expence.amount;
+    }
+
+    return catogoryTotals;
+  }
+
+  Map<Income, double> calculateIncomeCatogory() {
+    Map<Income, double> catogoryTotals = {
+      Income.freelance: 0,
+      Income.passiveIncome: 0,
+      Income.salary: 0,
+      Income.sales: 0
+    };
+    totIncome = 0;
+
+    for (IncomeModel income in incomeList) {
+      catogoryTotals[income.catogory] =
+          catogoryTotals[income.catogory]! + income.amount;
+      totIncome = totIncome + income.amount;
+    }
+    return catogoryTotals;
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      HomeScreen(expenseList: expensesList,incomeList: incomeList,),
+      HomeScreen(
+        expenseList: expensesList,
+        incomeList: incomeList,
+      ),
       TransactionsScreen(
         expensesList: expensesList,
         incomeList: incomeList,
@@ -93,7 +133,14 @@ class _MainScreenState extends State<MainScreen> {
         addExpense: addExpeces,
         addIncome: addIncome,
       ),
-      BodgetScreen(),
+      BodgetScreen(
+        // expenseList: expensesList,
+        // incomeList: incomeList,
+        expenseCatogoryTotals: calculateExpenseCatogory(),
+        incomeCatogoryTotals: calculateIncomeCatogory(),
+        expTotal: totExpense,
+        incTotal: totIncome,
+      ),
       ProfileScreen(),
     ];
 
