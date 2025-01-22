@@ -18,7 +18,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentPageIndex = 3;
+  int _currentPageIndex = 4;
   double totIncome = 0;
   double totExpense = 0;
   List<ExpenceModel> expensesList = [];

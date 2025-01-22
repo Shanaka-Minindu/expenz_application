@@ -96,4 +96,18 @@ class IncomeService {
       print(e);
     }
   }
+
+  Future<void> clearIncome(BuildContext context) async {
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      await pref.remove(_incomeKey);
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('All income deleted successfully'),
+        duration: Duration(seconds: 2),
+      ));
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }

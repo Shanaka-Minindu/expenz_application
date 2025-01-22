@@ -94,4 +94,18 @@ class ExpenceService {
       print(e.toString());
     }
   }
+
+  Future<void> clearExepnse(BuildContext context) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    try {
+      await pref.remove(_expenceKey);
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('All expenses deleted successfully'),
+        duration: Duration(seconds: 2),
+      ));
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }

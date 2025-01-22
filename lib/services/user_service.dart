@@ -59,4 +59,10 @@ class UserServices {
 
     return {"userName": userName!, "email": email!};
   }
+
+  static Future<void> eraseData() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.remove("userName");
+    await pref.remove("email");
+  }
 }
