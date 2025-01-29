@@ -36,6 +36,8 @@ class _AddScreenState extends State<AddScreen> {
   // date time
   DateTime _date = DateTime.now();
   DateTime _time = DateTime.now();
+
+  final _formkey = GlobalKey<FormState>();
   @override
   void dispose() {
     // TODO: implement dispose
@@ -154,7 +156,6 @@ class _AddScreenState extends State<AddScreen> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 1,
-                height: MediaQuery.of(context).size.height * .6,
                 margin: EdgeInsets.only(
                   top: MediaQuery.of(context).size.height * .3,
                 ),
@@ -164,207 +165,233 @@ class _AddScreenState extends State<AddScreen> {
                         topLeft: Radius.circular(40),
                         topRight: Radius.circular(40))),
                 child: Form(
+                    key: _formkey,
                     child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      DropdownButtonFormField(
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(
-                              left: 20, top: 16, bottom: 16, right: 20),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                        ),
-                        items: _expensePage
-                            ? Expence.values.map(
-                                (category) {
-                                  return DropdownMenuItem(
-                                    value: category,
-                                    child: Text(category.name),
-                                  );
-                                },
-                              ).toList()
-                            : Income.values.map(
-                                (category) {
-                                  return DropdownMenuItem(
-                                    value: category,
-                                    child: Text(category.name),
-                                  );
-                                },
-                              ).toList(),
-                        value: _expensePage ? _expence : _income,
-                        onChanged: (value) {
-                          setState(() {
-                            _expensePage
-                                ? _expence = value as Expence
-                                : _income = value as Income;
-                          });
-                        },
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      TextFormField(
-                        controller: _titleController,
-                        decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.only(left: 20, top: 16, bottom: 16),
-                            hintText: "Title",
-                            hintStyle: TextStyle(color: kGrey),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20))),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      TextFormField(
-                        controller: _discriptionController,
-                        decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.only(left: 20, top: 16, bottom: 16),
-                            hintText: "Description",
-                            hintStyle: TextStyle(color: kGrey),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20))),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      TextFormField(
-                        controller: _amountController,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.only(left: 20, top: 16, bottom: 16),
-                            hintText: "Amount",
-                            hintStyle: TextStyle(color: kGrey),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20))),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(2024),
-                                      lastDate: DateTime(2026))
-                                  .then(
-                                (value) {
-                                  if (value != null) {
-                                    setState(() {
-                                      _date = value;
-                                    });
-                                  }
-                                },
-                              );
-                            },
-                            child: DateButton(),
-                          ),
-                          Text(
-                            DateFormat.yMMMEd().format(_date),
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: const Color.fromARGB(255, 95, 95, 95),
+                          DropdownButtonFormField(
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.only(
+                                  left: 20, top: 16, bottom: 16, right: 20),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20)),
                             ),
+                            items: _expensePage
+                                ? Expence.values.map(
+                                    (category) {
+                                      return DropdownMenuItem(
+                                        value: category,
+                                        child: Text(category.name),
+                                      );
+                                    },
+                                  ).toList()
+                                : Income.values.map(
+                                    (category) {
+                                      return DropdownMenuItem(
+                                        value: category,
+                                        child: Text(category.name),
+                                      );
+                                    },
+                                  ).toList(),
+                            value: _expensePage ? _expence : _income,
+                            onChanged: (value) {
+                              setState(() {
+                                _expensePage
+                                    ? _expence = value as Expence
+                                    : _income = value as Income;
+                              });
+                            },
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please fill the title field";
+                              }
+                            },
+                            controller: _titleController,
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.only(
+                                    left: 20, top: 16, bottom: 16),
+                                hintText: "Title",
+                                hintStyle: TextStyle(color: kGrey),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20))),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please fill the discription field";
+                              }
+                            },
+                            controller: _discriptionController,
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.only(
+                                    left: 20, top: 16, bottom: 16),
+                                hintText: "Description",
+                                hintStyle: TextStyle(color: kGrey),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20))),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Enter the amount you spent";
+                              }
+                              if (double.tryParse(value)! < 0) {
+                                return "You can't enter - value for the amount";
+                              }
+                            },
+                            controller: _amountController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.only(
+                                    left: 20, top: 16, bottom: 16),
+                                hintText: "Amount",
+                                hintStyle: TextStyle(color: kGrey),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20))),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(2024),
+                                          lastDate: DateTime(2026))
+                                      .then(
+                                    (value) {
+                                      if (value != null) {
+                                        setState(() {
+                                          _date = value;
+                                        });
+                                      }
+                                    },
+                                  );
+                                },
+                                child: DateButton(),
+                              ),
+                              Text(
+                                DateFormat.yMMMEd().format(_date),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color.fromARGB(255, 95, 95, 95),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  showTimePicker(
+                                          context: context,
+                                          initialTime: TimeOfDay.now())
+                                      .then(
+                                    (value) {
+                                      setState(() {
+                                        if (value != null) {
+                                          _time = DateTime(
+                                              _date.year,
+                                              _date.month,
+                                              _date.day,
+                                              value.hour,
+                                              value.minute);
+                                        }
+                                      });
+                                    },
+                                  );
+                                },
+                                child: TimeButton(),
+                              ),
+                              Text(DateFormat.jm().format(_time))
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Divider(
+                            color: kGrey,
+                            thickness: 2,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              if (_expensePage &&
+                                  _formkey.currentState!.validate()) {
+                                List<ExpenceModel> loadedExpences =
+                                    await ExpenceService().loadExpenses();
+                                print(loadedExpences.length);
+
+                                ExpenceModel expense = ExpenceModel(
+                                    id: loadedExpences.length + 1,
+                                    title: _titleController.text,
+                                    discription: _discriptionController.text,
+                                    amount: _amountController.text == Null
+                                        ? 0
+                                        : double.parse(_amountController.text),
+                                    date: _date,
+                                    time: _time,
+                                    expence: _expence);
+
+                                widget.addExpense(expense);
+
+                                _titleController.clear();
+                                _amountController.clear();
+                                _discriptionController.clear();
+                              }
+                              if (_expensePage == false &&
+                                  _formkey.currentState!.validate()) {
+                                List<IncomeModel> loadedIncome =
+                                    await IncomeService().loadIncome();
+                                IncomeModel income = IncomeModel(
+                                    id: loadedIncome.length + 1,
+                                    title: _titleController.text,
+                                    discription: _discriptionController.text,
+                                    amount: _amountController == null
+                                        ? 0
+                                        : double.parse(_amountController.text),
+                                    date: _date,
+                                    time: _time,
+                                    catogory: _income);
+
+                                widget.addIncome(income);
+
+                                _titleController.clear();
+                                _amountController.clear();
+                                _discriptionController.clear();
+                              }
+                            },
+                            child: CoustomButton(
+                                butText: "Add",
+                                color: _expensePage ? kRed : kGreen,
+                                textColor: kWhite),
                           )
                         ],
                       ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              showTimePicker(
-                                      context: context,
-                                      initialTime: TimeOfDay.now())
-                                  .then(
-                                (value) {
-                                  setState(() {
-                                    if (value != null) {
-                                      _time = DateTime(_date.year, _date.month,
-                                          _date.day, value.hour, value.minute);
-                                    }
-                                  });
-                                },
-                              );
-                            },
-                            child: TimeButton(),
-                          ),
-                          Text(DateFormat.jm().format(_time))
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Divider(
-                        color: kGrey,
-                        thickness: 2,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          if (_expensePage) {
-                            List<ExpenceModel> loadedExpences =
-                                await ExpenceService().loadExpenses();
-                            print(loadedExpences.length);
-
-                            ExpenceModel expense = ExpenceModel(
-                                id: loadedExpences.length + 1,
-                                title: _titleController.text,
-                                discription: _discriptionController.text,
-                                amount: _amountController.text == Null
-                                    ? 0
-                                    : double.parse(_amountController.text),
-                                date: _date,
-                                time: _time,
-                                expence: _expence);
-
-                            widget.addExpense(expense);
-
-                            _titleController.clear();
-                            _amountController.clear();
-                            _discriptionController.clear();
-                          } else {
-                            List<IncomeModel> loadedIncome =
-                                await IncomeService().loadIncome();
-                            IncomeModel income = IncomeModel(
-                                id: loadedIncome.length + 1,
-                                title: _titleController.text,
-                                discription: _discriptionController.text,
-                                amount: _amountController == null
-                                    ? 0
-                                    : double.parse(_amountController.text),
-                                date: _date,
-                                time: _time,
-                                catogory: _income);
-
-                            widget.addIncome(income);
-
-                            _titleController.clear();
-                            _amountController.clear();
-                            _discriptionController.clear();
-                          }
-                        },
-                        child: CoustomButton(
-                            butText: "Add",
-                            color: _expensePage ? kRed : kGreen,
-                            textColor: kWhite),
-                      )
-                    ],
-                  ),
-                )),
+                    )),
               )
             ],
           ),
